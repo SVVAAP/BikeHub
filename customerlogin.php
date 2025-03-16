@@ -1,9 +1,9 @@
 <?php
 include('login_customer.php');
 
-if(isset($_SESSION['login_customer'])){
+if (isset($_SESSION['login_customer'])) {
     header("location: index.php");
-    exit; // Add an exit to prevent further execution if the user is already logged in
+    exit;
 }
 ?>
 
@@ -13,63 +13,33 @@ if(isset($_SESSION['login_customer'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Customer Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<?php include 'header.php'; ?>
-
 <body>
-
-    <div>
-        <div>
-            <h1 style="display: flex;justify-content: center;">Customer Login</h1>
-        </div>
-    </div>
-
-    <div>
-        <div style="display: flex;justify-content: center;">
-
-            <div>
-                <div style="border-style: double;">
-                    <form action="" method="POST" style="padding:10px 10px;">
-
-                        <div>
-                            <div>
-                                <label for="customer_username"> Username: </label>
-                                <div>
-                                    <input id="customer_username" type="text" name="customer_username" placeholder="Username" required="" autofocus="">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div>
-                                <label for="customer_password"> Password: </label>
-                                <div>
-                                    <input id="customer_password" type="password" name="customer_password" placeholder="Password" required="">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div>
-                                <button name="submit" type="submit" value=" Login ">Submit</button>
-                                <label style="color: red;flex: 1;position: relative;right: inherit;"> <?php echo $error;?></label>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label>or</label> <br>
-                            <label><a href="customersignup.php">Create a new account.</a></label>
-                        </div>
-
-                        <div>
-                           <!-- <label><a href="forgot_password.php">Forgot Password?</a></label> Adding the Forgot Password link -->
-                        </div>
-                    </form>
+<?php include 'header.php'; ?>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f4;">
+        
+        <div class="card shadow p-4" style="width: 350px; background: white; border-radius: 10px;">
+            <h2 class="text-center mb-3">Customer Login</h2>
+            <form action="" method="POST">
+                <div class="mb-3">
+                    <label for="customer_username" class="form-label">Username</label>
+                    <input id="customer_username" type="text" name="customer_username" class="form-control"
+                        placeholder="Enter Username" required autofocus>
                 </div>
-            </div>
+                <div class="mb-3">
+                    <label for="customer_password" class="form-label">Password</label>
+                    <input id="customer_password" type="password" name="customer_password" class="form-control"
+                        placeholder="Enter Password" required>
+                </div>
+                <button name="submit" type="submit" class="btn btn-primary w-100">Login</button>
+                <p class="text-danger text-center mt-2"> <?php echo $error; ?> </p>
+                <div class="text-center mt-3">
+                    <p>Don't have an account? <a href="customersignup.php">Sign Up</a></p>
+                </div>
+            </form>
         </div>
     </div>
 </body>

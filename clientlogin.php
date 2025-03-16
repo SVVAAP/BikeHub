@@ -12,7 +12,7 @@ if (isset($_POST['submit'])) {
 
         // Establishing Connection with Server by including the connection script
         require 'connection.php'; // Include your connection script here
-		$conn = Connect();
+        $conn = Connect();
 
         // SQL query to fetch information of registered users and find user match.
         $query = "SELECT client_username, client_password FROM clients WHERE client_username='$client_username' AND client_password='$client_password' LIMIT 1";
@@ -26,8 +26,7 @@ if (isset($_POST['submit'])) {
             $row = mysqli_fetch_assoc($result);
             $_SESSION['login_client'] = $row['client_username']; // Initializing Session
             header("location: index.php"); // Redirecting To Other Page
-		 } 
-		 else {
+        } else {
             $error = "* Username or Password is invalid";
         }
 
@@ -39,59 +38,45 @@ if (isset($_POST['submit'])) {
 
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Page</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 </head>
 
 <?php include 'header.php'; ?>
 
-<div>
-    <div>
-        <h1 style="display: flex;justify-content: center;">Admin Login</h1>
-    </div>
-</div>
+<div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f8f9fa;">
+    <div style="width: 350px; padding: 20px; background: white; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; margin-bottom: 20px;">Admin Login</h2>
 
-<div>
-    <div style="display: flex;justify-content: center;">
+        <form action="" method="POST">
 
-        <div>
-            <div style="border-style: double;">
-                <form action="" method="POST" style="padding:10px 10px;">
-
-                    <div>
-                        <div>
-                            <label for="client_username"> Username: </label>
-                            <div>
-                                <input id="client_username" type="text" name="client_username" placeholder="Username" required="" autofocus="">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div>
-                            <label for="client_password"> Password: </label>
-                            <div>
-                                <input id="client_password" type="password" name="client_password" placeholder="Password" required="">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div>
-                            <button name="submit" type="submit" value="Login">Submit</button>
-                            <label style="color: red;flex: 1;position: relative;right: inherit;"> <?php echo $error;?></label>
-
-                        </div>
-
-                    </div>
-                </form>
+            <div style="margin-bottom: 15px;">
+                <label for="client_username" style="font-weight: 500;">Username:</label>
+                <input id="client_username" type="text" name="client_username" placeholder="Enter your username" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
             </div>
-        </div>
+
+            <div style="margin-bottom: 15px;">
+                <label for="client_password" style="font-weight: 500;">Password:</label>
+                <input id="client_password" type="password" name="client_password" placeholder="Enter your password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+
+            <button name="submit" type="submit" value="Login" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+                Submit
+            </button>
+
+            <div style="text-align: center; margin-top: 10px; color: red;"> 
+                <?php echo $error;?>
+            </div>
+
+        </form>
     </div>
 </div>
 </body>
+
 </html>

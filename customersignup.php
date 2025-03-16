@@ -1,111 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<?php include 'header.php' ?>
-<div>
-    <div>
-        <h1 style="display: flex;justify-content: center;">Registration</h1>
-    </div>
-</div>
+<body style="background-color: #f8f9fa;">
 
-<div>
-    <div style="display: flex;justify-content: center;">
-        <div>
-            <div style="border-style: double;">
-                <form action="customer_registered_success.php" method="POST" onsubmit="return validateForm()" style="padding:10px 10px;">
+    <?php include 'header.php'; ?>
 
-                    <div>
-                        <div>
-                            <label for="customer_name">* Full Name: </label>
-                            <div>
-                                <input id="customer_name" type="text" name="customer_name" placeholder="Your Full Name" required="" autofocus="">
-                            </div>
-                        </div>
-                    </div>
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="card shadow p-4" style="width: 400px;">
+            <h2 class="text-center mb-4">Registration</h2>
+            <form action="customer_registered_success.php" method="POST" onsubmit="return validateForm()">
+                
+                <div class="mb-3">
+                    <label for="customer_name" class="form-label">* Full Name:</label>
+                    <input id="customer_name" type="text" name="customer_name" class="form-control" placeholder="Your Full Name" required>
+                </div>
 
-                    <div>
-                        <div>
-                            <label for="customer_username">* Username: </label>
-                            <div>
-                                <input id="customer_username" type="text" name="customer_username" placeholder="Your Username" required="">
-                            </div>
-                        </div>
-                    </div>
+                <div class="mb-3">
+                    <label for="customer_username" class="form-label">* Username:</label>
+                    <input id="customer_username" type="text" name="customer_username" class="form-control" placeholder="Your Username" required>
+                </div>
 
-                    <div>
-                        <div>
-                            <label for="customer_email">* Email: </label>
-                            <div>
-                                <input id="customer_email" type="email" name="customer_email" placeholder="Email" required="">
-                            </div>
-                        </div>
-                    </div>
+                <div class="mb-3">
+                    <label for="customer_email" class="form-label">* Email:</label>
+                    <input id="customer_email" type="email" name="customer_email" class="form-control" placeholder="Email" required>
+                </div>
 
-                    <div>
-                        <div>
-                            <label for="customer_phone">* Phone: </label>
-                            <div>
-                                <input id="customer_phone" type="tel" pattern="[0-9]{10}" name="customer_phone" placeholder="Phone" required="">
-                            </div>
-                        </div>
-                    </div>
+                <div class="mb-3">
+                    <label for="customer_phone" class="form-label">* Phone:</label>
+                    <input id="customer_phone" type="tel" name="customer_phone" class="form-control" pattern="[0-9]{10}" placeholder="Phone" required>
+                </div>
 
-                    <div>
-                        <div>
-                            <label for="customer_address">* Address: </label>
-                            <div>
-                                <input id="customer_address" type="text" name="customer_address" placeholder="Address" required="">
-                            </div>
-                        </div>
-                    </div>
+                <div class="mb-3">
+                    <label for="customer_address" class="form-label">* Address:</label>
+                    <input id="customer_address" type="text" name="customer_address" class="form-control" placeholder="Address" required>
+                </div>
 
-                    <div>
-                        <div>
-                            <label for="customer_password">* Password: </label>
-                            <div>
-                                <input id="customer_password" type="password" name="customer_password" placeholder="Password" required="">
-                            </div>
-                        </div>
-                    </div>
+                <div class="mb-3">
+                    <label for="customer_password" class="form-label">* Password:</label>
+                    <input id="customer_password" type="password" name="customer_password" class="form-control" placeholder="Password" required>
+                </div>
 
-                    <div>
-                        <div>
-                            <button type="submit">Submit</button>
-                        </div>
-                    </div>
-                    <label>or</label> <br>
-                    <label><a href="customerlogin.php">Have an account? Login.</a></label>
+                <button type="submit" class="btn btn-primary w-100">Submit</button>
 
-                </form>
+                <div class="text-center mt-3">
+                    <span>or</span> <br>
+                    <a href="customerlogin.php" class="text-decoration-none">Have an account? Login</a>
+                </div>
 
-            </div>
-
+            </form>
         </div>
-
     </div>
-</div>
-<script>
-    function validateForm() {
-        var fullName = document.getElementById('customer_name').value;
-        var username = document.getElementById('customer_username').value;
-        var letters = /^[A-Za-z]+$/;
 
-        if (!fullName.match(letters)) {
-            alert('Full Name must contain only alphabetic characters');
-            return false;
-        }
+    <script>
+        function validateForm() {
+            var fullName = document.getElementById('customer_name').value;
+            var username = document.getElementById('customer_username').value;
+            var nameRegex = /^[A-Za-z\s]+$/;
 
-        if (!username.match(letters)) {
-            alert('Username must contain only alphabetic characters');
-            return false;
+            if (!fullName.match(nameRegex)) {
+                alert('Full Name must contain only alphabetic characters.');
+                return false;
+            }
+
+            if (!username.match(nameRegex)) {
+                alert('Username must contain only alphabetic characters.');
+                return false;
+            }
+            return true;
         }
-        return true;
-    }
-</script>
+    </script>
+
 </body>
-
 </html>

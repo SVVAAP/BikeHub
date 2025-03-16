@@ -19,19 +19,19 @@ $conn = Connect();
 <body style="margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background-color: #f5f5f5; color: #333; line-height: 1.6;">
 
     <!-- Header Section -->
-    <header style="background-color: #ffffff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000;">
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; max-width: 1400px; margin: 0 auto;">
-            <a href="index.php" style="font-size: 24px; font-weight: 700; color: #2c3e50; text-decoration: none;">Bike<span style="color: #e74c3c;">Hub</span>.com</a>
+    <?php include 'header.php'; ?>
+    <header style="background-color:rgb(0, 0, 0); box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000;">
+        <div style="display: flex; justify-content: center; align-items: center; padding: 20px 5%; max-width: 1400px; margin: 0 auto; text-align: center;">
             
             <nav>
                 <ul style="display: flex; list-style: none; margin: 0; padding: 0;">
-                    <li style="margin-left: 30px;"><a href="#hero" style="text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 16px; transition: color 0.3s;">Home</a></li>
-                    <li style="margin-left: 30px;"><a href="#about" style="text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 16px; transition: color 0.3s;">About</a></li>
-                    <li style="margin-left: 30px;"><a href="#services" style="text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 16px; transition: color 0.3s;">Services</a></li>
-                    <li style="margin-left: 30px;"><a href="#bikes" style="text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 16px; transition: color 0.3s;">Bikes</a></li>
-                    <li style="margin-left: 30px;"><a href="#testimonials" style="text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 16px; transition: color 0.3s;">Testimonials</a></li>
-                    <li style="margin-left: 30px;"><a href="#contact" style="text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 16px; transition: color 0.3s;">Contact</a></li>
-                    <li style="margin-left: 30px;"><a href="customerlogin.php" style="text-decoration: none; color: #e74c3c; font-weight: 600; font-size: 16px; transition: color 0.3s;">Login</a></li>
+                    <li style="margin-left: 30px;"><a href="#hero" style="text-decoration: none; color:rgb(255, 255, 255); font-weight: 500; font-size: 16px; transition: color 0.3s;">Home</a></li>
+                    <li style="margin-left: 30px;"><a href="#about" style="text-decoration: none; color:rgb(255, 255, 255); font-weight: 500; font-size: 16px; transition: color 0.3s;">About</a></li>
+                    <li style="margin-left: 30px;"><a href="#services" style="text-decoration: none; color:rgb(255, 255, 255); font-weight: 500; font-size: 16px; transition: color 0.3s;">Services</a></li>
+                    <li style="margin-left: 30px;"><a href="#bikes" style="text-decoration: none; color:rgb(255, 255, 255); font-weight: 500; font-size: 16px; transition: color 0.3s;">Bikes</a></li>
+                    <li style="margin-left: 30px;"><a href="#testimonials" style="text-decoration: none; color:rgb(255, 255, 255); font-weight: 500; font-size: 16px; transition: color 0.3s;">Testimonials</a></li>
+                    <li style="margin-left: 30px;"><a href="#contact" style="text-decoration: none; color:rgb(255, 255, 255); font-weight: 500; font-size: 16px; transition: color 0.3s;">Contact</a></li>
+                    
                 </ul>
             </nav>
         </div>
