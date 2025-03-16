@@ -3,21 +3,15 @@ require 'connection.php';
 $conn = Connect();
 
 session_start();
- ?> 
-
-<?php 
-
 $message = '';
 
 if (isset($_POST["update_availability"])) {
-
     $bike_id_to_update = $_POST["bike_id"];
     $new_availability = $_POST["availability"];
     
-
     $sql_update1 = "UPDATE bikes SET bike_availability = '$new_availability' WHERE bike_id = $bike_id_to_update";
-    $sql_update2= "UPDATE rentedbikes SET return_status = 'R' WHERE bike_id = $bike_id_to_update";
-    $done = $conn->query($sql_update2);
+    $sql_update2 = "UPDATE rentedbikes SET return_status = 'R' WHERE bike_id = $bike_id_to_update";
+    $conn->query($sql_update2);
 
     if ($conn->query($sql_update1) === TRUE) {
         $message = "Availability updated successfully";
@@ -35,80 +29,79 @@ $available_bikes = $row_count_available_bikes['available_bikes'];
 
 <!DOCTYPE html>
 <html>
-
 <head>
-<style> td { text-align: center}</style>
+    <style>
+        td { text-align: center; }
+    </style>
+    <script>
+        function updateBikeAvailability(bikeId) {
+            let availability = document.getElementById('availability_' + bikeId).value;
+            let formData = new FormData();
+            formData.append('bike_id', bikeId);
+            formData.append('availability', availability);
+            formData.append('update_availability', true);
+            
+            fetch('updatebike.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data); // Show response message
+                location.reload(); // Refresh page to reflect changes
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
 </head>
-
-<?php include 'header.php' ?>
-
 <body>
-    <div>
-        <div>
-            <h1 style="text-align: center; font-size: 30px;">Update Availability</h1>
-        </div>
+    <div style="text-align: center; padding: 20px; background: #343a40; color: white;">
+        <h1>Update Availability</h1>
     </div>
 
-    <div>
-        <div style="padding: 0px 100px 100px 100px;">
-            <form action="" method="POST">
-                <br style="clear: both">
-                <h3 style=" text-align: center; font-size: 30px;">My bikes</h3>
-                <p style="text-align: center;">Available bikes: <?php echo $available_bikes; ?></p>
-                <?php
-                // Storing Session
-                $user_check=$_SESSION['login_client'];
-                $sql = "SELECT * FROM bikes ";
-                $result = mysqli_query($conn, $sql);
+    <div style="padding: 50px;">
+        <div style="max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+            <h3 style="text-align: center; color: #343a40;">My Bikes</h3>
+            <p style="text-align: center; color: #6c757d;">Available bikes: <?php echo $available_bikes; ?></p>
 
-                if (mysqli_num_rows($result) > 0) {
-                ?>
-                    <div style="overflow-x:auto;">
-                        <table>
-                            <thead>
-                                <tr>
-
-                                    <th width="15%">Name</th>
-                                    <th width="15%">Nameplate</th>
-                                    <th width="13%"> Fare (/km)</th>
-                                    <th width="13%"> Fare (/day)</th>
-                                    <th width="10%">Availability</th>
-                                    <th width="10%">Actions</th>
-                                </tr>
-                            </thead>
-
-                            <?php
-
-                            while($row = mysqli_fetch_assoc($result)){
-                            ?>
-                                <tbody>
-                                    <tr>
-                                        <td><?php echo $row["bike_name"]; ?></td>
-                                        <td><?php echo $row["bike_nameplate"]; ?></td>
-                                        <td><?php echo $row["price"]; ?></td>
-                                        <td><?php echo $row["price_per_day"]; ?></td>
-                                        <td><?php echo $row["bike_availability"]; ?></td>
-                                        <td>
-                                            <form action="" method="POST">
-                                                <input type="hidden" name="bike_id" value="<?php echo $row['bike_id']; ?>">
-                                                <select name="availability">
-                                                    <option value="yes">Available</option>
-                                                    <option value="no">Not Available</option>
-                                                </select>
-                                                <button type="submit" name="update_availability">Update</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            <?php } ?>
-                        </table>
-                    </div>
-                    <br>
-                <?php } ?> 
-            </form>
-            <div style="display:flex; justify-content: center;"><?php echo $message; ?></div>
+            <div style="overflow-x:auto;">
+                <table style="width: 100%; border-collapse: collapse; text-align: center;">
+                    <thead>
+                        <tr style="background: #343a40; color: white;">
+                            <th>Name</th>
+                            <th>Nameplate</th>
+                            <th>Fare (/km)</th>
+                            <th>Fare (/day)</th>
+                            <th>Availability</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $sql = "SELECT * FROM bikes";
+                        $result = mysqli_query($conn, $sql);
+                        while($row = mysqli_fetch_assoc($result)) { ?>
+                            <tr>
+                                <td><?php echo $row["bike_name"]; ?></td>
+                                <td><?php echo $row["bike_nameplate"]; ?></td>
+                                <td>₹<?php echo $row["price"]; ?></td>
+                                <td>₹<?php echo $row["price_per_day"]; ?></td>
+                                <td><?php echo $row["bike_availability"]; ?></td>
+                                <td>
+                                    <select id="availability_<?php echo $row['bike_id']; ?>">
+                                        <option value="yes">Available</option>
+                                        <option value="no">Not Available</option>
+                                    </select>
+                                    <button onclick="updateBikeAvailability(<?php echo $row['bike_id']; ?>)" style="background: #28a745; color: white; padding: 6px 10px; border: none; border-radius: 5px; cursor: pointer;">Update</button>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div style="text-align: center; color: #dc3545;"> <?php echo $message; ?> </div>
         </div>
     </div>
 </body>
-
 </html>

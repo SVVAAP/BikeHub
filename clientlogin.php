@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
             // Fetch the row
             $row = mysqli_fetch_assoc($result);
             $_SESSION['login_client'] = $row['client_username']; // Initializing Session
-            header("location: index.php"); // Redirecting To Other Page
+            header("location: admin_dashboard.php"); // Redirecting To Other Page
         } else {
             $error = "* Username or Password is invalid";
         }

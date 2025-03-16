@@ -1,99 +1,129 @@
+<!DOCTYPE html>
+<html>
 <?php 
 require 'connection.php';
 $conn = Connect();
 
 session_start();
- ?> 
-<?php 
-$message = '';
+$message = ""; 
 
-
-if (isset($_POST["delete_bike"])) {
-
-    $bike_id_to_delete = $_POST["bike_id"];
-    
-
-    $sql_delete = "DELETE FROM bikes WHERE bike_id = $bike_id_to_delete";
-    
-
-    if ($conn->query($sql_delete) === TRUE) {
-        $message = "Record deleted successfully";
+if (isset($_POST['delete_bike'])) {
+    $bike_id = $_POST['bike_id'];
+    $delete_query = "DELETE FROM bikes WHERE bike_id = '$bike_id'";
+    if (mysqli_query($conn, $delete_query)) {
+        $message = "<p style='color: green; text-align: center;'>Bike deleted successfully!</p>";
     } else {
-        $message = "Error deleting record: " . $conn->error;
+        $message = "<p style='color: red; text-align: center;'>Failed to delete bike. Try again.</p>";
     }
 }
-?>
-
-<!DOCTYPE html>
-<html>
-
+?> 
 <head>
-    <style> td { text-align: center}</style>
+    <title>Delete Bike</title>
+    <style> 
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            margin: auto;
+            padding: 20px;
+        }
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        table th, table td {
+            padding: 12px;
+            border: 1px solid #dee2e6;
+        }
+        table th {
+            background: #343a40;
+            color: white;
+        }
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .delete-btn:hover {
+            background: #b52b3a;
+        }
+        .message-box {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 15px;
+        }
+    </style>
 </head>
-
-<?php include 'header.php' ?>
-
 <body>
-    <div>
-        <div>
-            <h1 style="text-align: center; font-size: 30px;">Delete bike </h1>
-        </div>
-    </div>
 
-    <div>
-        <div style="padding: 0px 100px 100px 100px;">
-            <form action="" method="POST">
-                <br style="clear: both">
-                <h3 style="text-align: center; font-size: 30px;"> My bikes </h3>
-                <?php
-                $user_check=$_SESSION['login_client'];
-                $sql = "SELECT * FROM bikes ";
-                $result = mysqli_query($conn, $sql);
+<div class="container">
+    <h1 style="text-align: center; font-size: 28px; color: #343a40;"> 🏍️ Delete Bike </h1>
 
-                if (mysqli_num_rows($result) > 0) {
-                ?>
-                    <div style="overflow-x:auto;">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th width="15%"> Name</th>
-                                    <th width="15%"> Nameplate </th>
-                                    <th width="13%">  Fare (/km) </th>
-                                    <th width="13%">  Fare (/day)</th>
-                                    <th width="1%"> Availability </th>
-                                    <th width="10%"> Actions </th>
-                                </tr>
-                            </thead>
+    <!-- Display Bike List -->
+    <div class="table-container">
+        <h3 style="text-align: center; font-size: 24px; color: #343a40;"> My Bikes </h3>
+        <?php
+            $user_check = $_SESSION['login_client'];
+            $sql = "SELECT * FROM bikes";
+            $result = mysqli_query($conn, $sql);
 
-                            <?PHP
-                            while($row = mysqli_fetch_assoc($result)){
-                            ?>
+            if (mysqli_num_rows($result) > 0) {
+        ?>
+        <table>
+            <thead>
+                <tr>
+                    <th> Name </th>
+                    <th> Nameplate </th>
+                    <th> Fare (/km) </th>
+                    <th> Fare (/day) </th>
+                    <th> Availability </th>
+                    <th> Actions </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                <tr>
+                    <td><?php echo $row["bike_name"]; ?></td>
+                    <td><?php echo $row["bike_nameplate"]; ?></td>
+                    <td>₹<?php echo $row["price"]; ?></td>
+                    <td>₹<?php echo $row["price_per_day"]; ?></td>
+                    <td><?php echo $row["bike_availability"]; ?></td>
+                    <td>
+                    <form action="deletebike.php" method="POST">
+                            <input type="hidden" name="bike_id" value="<?php echo $row['bike_id']; ?>">
+                            <button type="button" class="delete-btn" onclick="deleteBike(<?php echo $row['bike_id']; ?>)">Delete</button>
 
-                                <tbody>
-                                    <tr>
-                                        <td><?php echo $row["bike_name"]; ?></td>
-                                        <td><?php echo $row["bike_nameplate"]; ?></td>
-                                        <td><?php echo $row["price"]; ?></td>
-                                        <td><?php echo $row["price_per_day"]; ?></td>
-                                        <td><?php echo $row["bike_availability"]; ?></td>
-                                        <td>
-                                            <form action="" method="POST">
-                                                <input type="hidden" name="bike_id" value="<?php echo $row['bike_id']; ?>">
-                                                <button type="submit" name="delete_bike">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            <?php } ?>
-                        </table>
-                    </div>
-                    <br>
+                        </form>
+                    </td>
+                </tr>
                 <?php } ?>
-            </form>
-            <div  style="display:flex;
-  justify-content: center;"><?php echo $message; ?></div>
-        </div>
+            </tbody>
+        </table>
+        <?php } else { ?>
+            <p style="text-align: center; color: #6c757d;">No bikes available.</p>
+        <?php } ?>
     </div>
-</body>
 
+    <div class="message-box"><?php echo $message; ?></div>
+</div>
+
+</body>
 </html>

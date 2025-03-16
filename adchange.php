@@ -39,31 +39,34 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Change Password</title>
 </head>
-<?php include 'header.php' ?>
+
 <body>
 
-<div>
-    <div>
-        <h3 style="text-align: center; font-size: 30px;">Change Password</h3>
-    </div>
-    <div >
-        <?php if (isset($success_message)) : ?>
-            <div  style="display: flex; justify-content: center;"><?php echo $success_message; ?></div>
+<div style="background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); width: 350px; text-align: center; margin: auto; margin-top: 100px;">
+    <h3 style="text-align: center; font-size: 24px; margin-bottom: 20px;">Change Password</h3>
+    
+    <?php if (isset($success_message)) : ?>
+        <div style="color: green; margin-bottom: 15px;"><?php echo $success_message; ?></div>
+    <?php endif; ?>
+    
+    <form action="adchange.php" method="post">
+        <div style="margin-bottom: 15px;">
+            <label for="new_password" style="display: block; font-size: 14px; margin-bottom: 5px;">New Password</label>
+            <input type="password" id="new_password" name="new_password" required 
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        
+        <button type="submit" name="submit" 
+            style="background: #007bff; color: white; border: none; padding: 10px 15px; width: 100%; border-radius: 4px; cursor: pointer;">
+            Submit
+        </button>
+
+        <?php if (isset($error)) : ?>
+            <div style="color: red; margin-top: 10px;"><?php echo $error; ?></div>
         <?php endif; ?>
-        <form method="post">
-            <div style="display: flex; justify-content: center;">
-                <label for="new_password">New Password</label>
-                <input type="password" id="new_password" name="new_password" required>
-            </div>
-            <div style="display: flex; justify-content: center;">
-            <button type="submit" name="submit">Submit</button>
-            <?php if ($error) : ?>
-                <div><?php echo $error; ?></div>
-            <?php endif; ?>
-            
-        </form>
-    </div>
+    </form>
 </div>
+
 
 </body>
 </html>

@@ -227,7 +227,25 @@ ALTER TABLE `customers`
  ADD PRIMARY KEY (`customer_username`);
 
 
+-- Create payments table
+CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `bike_id` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `payment_date` datetime NOT NULL,
+  `razorpay_payment_id` varchar(255) NOT NULL,
+  `payment_status` enum('pending','success','failed') NOT NULL DEFAULT 'pending',
+  PRIMARY KEY (`payment_id`),
+  KEY `customer_id` (`customer_id`),
+  KEY `bike_id` (`bike_id`),
+  CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`),
+  CONSTRAINT `payments_ibfk_2` FOREIGN KEY (`bike_id`) REFERENCES `bikes` (`bike_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Also add payment_id column to the rentedBikes table if not already present
+ALTER TABLE `rentedbikes` ADD COLUMN `payment_id` varchar(255) DEFAULT NULL;
+ALTER TABLE `rentedbikes` ADD COLUMN `customer_id` varchar(255) DEFAULT NULL;
 --
 -- AUTO_INCREMENT for table `bikes`
 --
